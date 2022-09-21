@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Function app and storage account names must be unique.
-location=westus2
+location=eastus
 resourceGroup=$1
-storageName=${resourceGroup}storage
+storageName=${resourceGroup}stor
 functionAppName=${resourceGroup}funcapp
-pythonVersion=3.6
+pythonVersion=3.9
 customVisionTrainer=${resourceGroup}visiontrainer
 customVisionPredictor=${resourceGroup}visionpredictor
 rbacAppName=${resourceGroup}appcred
