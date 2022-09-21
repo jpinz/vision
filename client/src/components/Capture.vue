@@ -13,9 +13,9 @@
         </div>
         <div id="radioselection">
             <span :key="item+index" v-for="(item, index) in labels">
-                <input type="radio" :id="item" name="sign" :value="item" 
-                    :checked="selectedSign == item"
-                    v-model="selectedSign">
+                <input type="radio" :id="item" name="action" :value="item" 
+                    :checked="selectedAction == item"
+                    v-model="selectedAction">
                 <label :for="item">{{item}}</label>
                 &nbsp;
             </span>
@@ -75,16 +75,16 @@
                 message: '',
                 video: null,
                 canvas: null,
-                selectedSign: 'none',
+                selectedAction: 'no-face',
                 list: [],
                 lastresponse: null,
                 interval: null,
                 model: null,
                 modelmeta: null,
-                labels: ['none', 'rock', 'paper', 'scissors'],
+                labels: ['no-face', 'bite', 'no-bite'],
                 modelLabels: [],
                 probabilities: [],
-                guess: 'none',
+                guess: 'no-face',
                 vdim: {
                     'width': 0,
                     'height': 0
@@ -206,7 +206,7 @@
                     this.canvas.drawImage(this.video, 0, 0, 320, 240)
                     let c = document.getElementById('canvas')
                     this.list.push({
-                        type: this.selectedSign,
+                        type: this.selectedAction,
                         image: c.toDataURL()
                     })
                 } else {
