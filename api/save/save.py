@@ -6,7 +6,7 @@ import logging
 import requests
 from PIL import Image
 from io import BytesIO
-from azure.storage.blob import BlockBlobService
+from azure.storage.blob import BlobServiceClient
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import ImageFileCreateEntry
 
@@ -25,7 +25,7 @@ projectId = os.environ["ProjectId"]
 tags = {}
 
 def check_tags(trainer: CustomVisionTrainingClient) -> None:
-    t = ['none', 'rock', 'paper', 'scissors']
+    t = ['no-face', 'bite', 'no-bite']
     etags = { t.name: t for t in trainer.get_tags(projectId) }
     for tag in t:
         if tag in etags:
@@ -47,7 +47,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     body = req.get_json()
 
-    blob_service = BlockBlobService(account_name=storageAccount, account_key=storageAccountKey)
+    blob_service = BlobServiceClient(account_name=storageAccount, account_key=storageAccountKey)
 
     # prep trainer
     trainer = CustomVisionTrainingClient(trainingKey, apiEndpoint)
@@ -59,8 +59,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         for item in body['items']:
-            # sign
-            sign = item['type'].strip()
+            # pose
+            pose = item['type'].strip()
 
             # image bits
             img = base64.b64decode(item['image'].replace('data:image/png;base64,', ''))
@@ -68,18 +68,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             # storage path + save
             image_name = f'{str(uuid.uuid4())}.png'
-            blob_name = f'{base_folder}/{sign}/{image_name}'            
+            blob_name = f'{base_folder}/{pose}/{image_name}'            
             sresponse = blob_service.create_blob_from_stream(storageContainer, blob_name, stream)
 
             logging.info(f'Storage Response: {sresponse}')
 
             # save to custom vision
-            image_list.append(ImageFileCreateEntry(name=image_name, contents=img, tag_ids=[tags[sign].id]))
+            image_list.append(ImageFileCreateEntry(name=image_name, contents=img, tag_ids=[tags[pose].id]))
 
 
             # return image
             path = f'{blob_service.protocol}://{blob_service.primary_endpoint}/{storageContainer}/{blob_name}'
-            records['images'].append({'sign': sign, 'path': path })
+            records['images'].append({'pose': pose, 'path': path })
 
         # save list
         upload_result = trainer.create_images_from_files(projectId, images=image_list)
