@@ -27,7 +27,7 @@
         </div>
         <div id="images">
             <div id="videoPane">
-                <video id="video" width="320" height="240" autoplay></video>
+                <video id="video" @width=vdim.width @height=vdim.height autoplay></video>
                 <div id="deviceOptions">
                     <select name="deviceSelection" @input="setDevice">
                         <option :key="idx" v-for="(ditem, idx) in devices" value="ditem.deviceId">{{ditem.label}}</option>
@@ -54,7 +54,7 @@
             <ul class="imagelist" :key="index" v-for="(item, index) in list">
                 <li class="imgitem" @click="removeImage(index)">
                     <div>{{item.type}}</div>
-                    <img height="120" width="160" :src="item.image" />
+                    <img @width=vdim.width @height=vdim.height :src="item.image" />
                 </li>
             </ul>
             <div class="btn">
@@ -172,7 +172,7 @@
                 // draw video image on canvas
                 var pic = document.getElementById('rendered')
                 var ctx = pic.getContext('2d')
-                ctx.drawImage(this.video, 0, 0, 320, 240)
+                ctx.drawImage(this.video, 0, 0, this.vdim.width, this.vdim.height)
 
                 // run prediction
                 const prediction = await this.model.executeAsync(pic)
@@ -207,7 +207,7 @@
             },
             addImage: function () {
                 if(this.list.length <  64) {
-                    this.canvas.drawImage(this.video, 0, 0, 320, 240)
+                    this.canvas.drawImage(this.video, 0, 0, this.vdim.width, this.vdim.height)
                     let c = document.getElementById('canvas')
                     this.list.push({
                         type: this.selectedAction,
