@@ -3,7 +3,6 @@ import uuid
 import json
 import base64
 import logging
-from PIL import Image
 from io import BytesIO
 from azure.storage.blob import BlobServiceClient
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
