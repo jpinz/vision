@@ -11,7 +11,8 @@
             <p>For posing, you can just take normal pictures of your face when selecting no-bite but for bite you can just "simulate" nail biting by putting your fingers in/near/around your mouth as if you were biting them.</p>
             <br />
             <div class="btn" id="triggerButton">
-                <button type="button" v-on:click="key">{{interval != null ? "Start" : "Stop"}}</button>
+                <button type="button" v-if="interval != null" v-on:click="stopCapture()">Stop</button>
+                <button type="button" v-else v-on:click="startCapture()">Start</button>
             </div>
         </div>
         <div id="radioselection">
