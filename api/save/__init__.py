@@ -15,8 +15,7 @@ import azure.functions as func
 
 # for storage in blob
 base_folder = 'data'
-storageAccount = os.environ["StorageAccount"]
-storageAccountKey = os.environ["StorageAccountKey"]
+storageConnectionString = os.environ["AZURE_STORAGE_CONNECTION_STRING"]
 storageContainer = os.environ["StorageContainer"]
 
 # for pushing to customvision
@@ -49,7 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     body = req.get_json()
 
-    blob_service = BlobServiceClient(account_name=storageAccount, account_key=storageAccountKey)
+    blob_service = BlobServiceClient.from_connection_string(conn_str=storageConnectionString)
 
     # prep trainer
     credentials = ApiKeyCredentials(in_headers={"Training-key": trainingKey})
@@ -73,7 +72,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # storage path + save
             image_name = f'{str(uuid.uuid4())}.png'
             blob_name = f'{base_folder}/{pose}/{image_name}'            
-            sresponse = blob_service.create_blob_from_stream(storageContainer, blob_name, stream)
+            blob_client = blob_service.get_blob_client(storageContainer, blob_name)
+            sresponse = blob_client.upload_blob(stream)
 
             logging.info(f'Storage Response: {sresponse}')
 
