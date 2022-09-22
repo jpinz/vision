@@ -82,7 +82,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
 
             # return image
-            path = f'{blob_service.protocol}://{blob_service.primary_endpoint}/{storageContainer}/{blob_name}'
+            path = f'{blob_service.scheme}://{blob_service.primary_endpoint}/{storageContainer}/{blob_name}'
             records['images'].append({'pose': pose, 'path': path })
 
         # save list
