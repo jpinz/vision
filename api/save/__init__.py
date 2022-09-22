@@ -5,7 +5,7 @@ import base64
 import logging
 from io import BytesIO
 
-from azure.storage.blob import BlockServiceBlob
+from azure.storage.blob import BlobServiceClient
 
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
 from azure.cognitiveservices.vision.customvision.training.models import ImageFileCreateEntry
@@ -48,7 +48,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     body = req.get_json()
 
-    blob_service = BlockServiceBlob(account_name=storageAccount, account_key=storageAccountKey)
+    blob_service = BlobServiceClient(account_name=storageAccount, account_key=storageAccountKey)
 
     # prep trainer
     trainer = CustomVisionTrainingClient(trainingKey, apiEndpoint)
