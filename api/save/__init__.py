@@ -86,7 +86,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             records['images'].append({'pose': pose, 'path': path })
 
         # save list
-        upload_result = trainer.create_images_from_files(projectId, images=image_list)
+        upload_result = trainer.create_images_from_files(projectId, batch=image_list)
         if not upload_result.is_batch_successful:
             records['error'] = {
                 'type': 'CustomVision Error',
