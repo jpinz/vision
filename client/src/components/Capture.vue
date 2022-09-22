@@ -5,11 +5,14 @@
             <ol>
                 <li>Select desired gesture</li>
                 <li>Get into position!</li>
-                <li>Spacebar to start</li>
+                <li>Spacebar or click Button to start</li>
             </ol>
-            <p><strong>Training Instructions</strong></p>
-            <p>Once you uploaded a balanced set of pictures for each category
-                head over to <a href="customvision.ai">customvision</a> to train and download the model</p>
+            <p><strong>Details</strong></p>
+            <p>For posing, you can just take normal pictures of your face when selecting no-bite but for bite you can just "simulate" nail biting by putting your fingers in/near/around your mouth as if you were biting them.</p>
+            <br />
+            <div class="btn" id="triggerButton">
+                <button type="button" v-on:click="key">{{interval != null ? "Start" : "Stop"}}</button>
+            </div>
         </div>
         <div id="radioselection">
             <span :key="item+index" v-for="(item, index) in labels">
@@ -19,7 +22,7 @@
                 <label :for="item">{{item}}</label>
                 &nbsp;
             </span>
-            <div v-if="interval != null">Click Spacebar to Stop!</div>
+            <div v-if="interval != null">Click Button or Spacebar to Stop!</div>
         </div>
         <div id="images">
             <div id="videoPane">
@@ -289,6 +292,11 @@
         margin: 0px auto;
         width: 700px;
         /* border: solid 10px red;*/
+    }
+
+    #triggerButton{
+        width: 40pt;
+        height: 40pt;
     }
 
     #rendered {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>nail-biter</h1>
+    <h1>Nail Biting Image Crowdsourcer</h1>
     <Capture/>
   </div>
 </template>
