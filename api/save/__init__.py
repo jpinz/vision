@@ -9,7 +9,7 @@ from azure.storage.blob import BlobServiceClient
 from msrest.authentication import ApiKeyCredentials
 
 from azure.cognitiveservices.vision.customvision.training import CustomVisionTrainingClient
-from azure.cognitiveservices.vision.customvision.training.models import ImageFileCreateEntry
+from azure.cognitiveservices.vision.customvision.training.models import ImageFileCreateEntry, ImageFileCreateBatch
 
 import azure.functions as func
 
@@ -86,8 +86,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             records['images'].append({'pose': pose, 'path': path })
 
         # save list
-        upload_result = trainer.create_images_from_files(projectId, batch=image_list)
-        if not upload_result.is_batch_successful:
+        upload_result = trainer.create_images_from_files(projectId, ImageFileCreateBatch(images=image_list))
+        if not upload_result.response.status_code == 200 and not upload_result.response.status_code == 207:
             records['error'] = {
                 'type': 'CustomVision Error',
                 'items': []
