@@ -1,14 +1,13 @@
 {
-  "scriptFile": "save.py",
-  "entryPoint": "main",
+  "scriptFile": "__init__.py",
   "bindings": [
     {
-      "authLevel": "anonymous",
+      "authLevel": "Anonymous",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
       "methods": [
-        "options",
+        "get",
         "post"
       ]
     },
