@@ -12,7 +12,8 @@
     "core-js": "^2.6.10",
     "customvision-tfjs": "^1.0.1",
     "jquery": "^3.4.1",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "vue-web-cam": "^1.9.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.1",
