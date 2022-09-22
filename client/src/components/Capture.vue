@@ -242,7 +242,7 @@
                 } catch(error) {
                     // uh oh - log error and reset
                     console.log(error)
-                    this.message = 'error sending data'
+                    alert(error)
                     this.processing = false
                 }
             }
