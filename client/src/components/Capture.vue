@@ -84,6 +84,7 @@
             ref="webcam"
             :device-id="deviceId"
             width="100%"
+            screenshotFormat="image/png"
             @started="onStarted"
             @stopped="onStopped"
             @error="onError"
